@@ -1,0 +1,88 @@
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #334155;
+    --primary-color: #64748b;
+    --accent-color: #2dd4bf; /* かめさん風のグリーン */
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+header { text-align: center; margin-bottom: 20px; }
+h1 { color: var(--primary-color); margin-bottom: 5px; }
+
+.meter-container {
+    position: relative;
+    padding: 20px 40px 40px 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+    width: 90vw;
+    max-width: 600px;
+    aspect-ratio: 1 / 1;
+}
+
+.cell {
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.2s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.cell:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    filter: brightness(0.9);
+}
+
+/* 軸ラベルのスタイル */
+.y-axis-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: rotate(-90deg) translateY(-50%);
+    transform-origin: left top;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.x-axis-label {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* 結果表示エリア */
+.result-card {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+#selected-emotion-jp { font-size: 2rem; margin: 10px 0; color: #1e293b; }
+#selected-emotion-en { color: #64748b; font-style: italic; }
+
+@media (max-width: 480px) {
+    .y-axis-label { display: none; } /* スマホでは簡易化 */
+}
