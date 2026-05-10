@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教えてカメさん - Mood Meter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>教えてカメさん Mood Meter</h1>
+        <p>今のあなたの「エネルギー」と「フィーリング」はどこ？</p>
+    </header>
+
+    <main>
+        <div class="meter-outer-container">
+            <div class="y-axis-main-label">
+                <span class="label-high">高い</span>
+                <span class="label-text">エネルギー</span>
+                <span class="label-low">低い</span>
+            </div>
+
+            <div class="grid-layout">
+                <div class="y-numbers">
+                    <span>10</span><span>9</span><span>8</span><span>7</span><span>6</span>
+                    <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+                </div>
+                
+                <div id="mood-grid" class="grid"></div>
+
+                <div></div>
+                <div class="x-numbers">
+                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                    <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+            </div>
+            
+            <div class="x-axis-main-label">
+                <span>← 不快 (Unpleasant)</span>
+                <span>快 (Pleasant) →</span>
+            </div>
+        </div>
+
+        <div id="result-display" class="result-card">
+            <h2 id="selected-emotion-jp">マスを選択してください</h2>
+            <p id="selected-emotion-en">-</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 教えてカメさん | Based on Yale Center for Emotional Intelligence</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+#### 2. style.css
+```css
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #1e293b;
+    --accent-color: #2dd4bf;
+    --grid-size: min(80vw, 500px);
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+header { text-align: center; margin-bottom: 20px; }
+
+.meter-outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 30px var(--grid-size);
+    grid-template-rows: var(--grid-size) 30px;
+    gap: 10px;
+}
+
+/* 縦軸メインラベル（高い エネルギー 低い） */
+.y-axis-main-label {
+    position: absolute;
+    left: calc(50% - var(--grid-size)/2 - 100px);
+    height: var(--grid-size);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: #64748b;
+}
+.label-text { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 5px; }
+
+/* 縦軸の数字 */
+.y-numbers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    font-weight: bold;
+    color: #94a3b8;
+}
+
+/* 横軸の数字 */
+.x-numbers {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    font-weight: bold;
+    color: #94a3b8;
+}
+
+/* グリッド本体 */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+    border: 2px solid #e2e8f0;
+}
+
+.cell {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.cell:hover { transform: scale(1.1); z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+
+/* 横軸ラベル */
+.x-axis-main-label {
+    width: var(--grid-size);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #64748b;
+    padding-left: 30px;
+}
+
+.result-card {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+@media (max-width: 600px) {
+    .y-axis-main-label { display: none; }
+    :root { --grid-size: 300px; }
+}
+
+#### 3. script.js
+以前お送りした「100単語定義済み」のコードをそのままお使いいただけます。セルの生成時に `emotions[`${y}-${x}`]` と紐付けることで、どのマスを押しても正しい単語が出るようになります。
+
+教えてカメさんブランドの完成、応援しています！
