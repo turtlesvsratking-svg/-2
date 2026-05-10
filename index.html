@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教えてカメさん - Mood Meter Log</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>教えてカメさん Mood Meter</h1>
+        <p>今の感情を選んで、一言メモを残しましょう</p>
+    </header>
+
+    <main>
+        <div class="meter-outer-box">
+            <div class="y-axis-label-container">
+                <span class="y-label-edge">高い</span>
+                <span class="y-label-text">エネルギー</span>
+                <span class="y-label-edge">低い</span>
+            </div>
+            <div class="grid-layout">
+                <div class="y-numbers">
+                    <span>10</span><span>9</span><span>8</span><span>7</span><span>6</span>
+                    <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+                </div>
+                <div id="mood-grid" class="grid"></div>
+                <div></div>
+                <div class="x-numbers">
+                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                    <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-input-area">
+            <div class="selected-status">
+                <span id="selected-emotion-jp">マスを選択してください</span>
+                <span id="selected-emotion-en"></span>
+            </div>
+            <input type="text" id="memo-input" placeholder="例：夜勤明け、カンファレンス後など（メモ）">
+            <button id="save-btn" disabled>この感情を記録する</button>
+        </div>
+
+        <section class="history-section">
+            <h2>これまでの記録</h2>
+            <div id="history-list" class="history-list">
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 教えてカメさん | Based on Yale Center for Emotional Intelligence</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
