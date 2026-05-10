@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>教えてカメさん - Mood Meter Log</title>
+    <title>教えてカメさん - 感情ログ</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="centering-wrapper">
         <header>
-            <h1>教えてカメさん Mood Meter</h1>
-            <p>今の感情を選んで、一言メモを残しましょう</p>
+            <h1>教えてカメさん</h1>
+            <p>今の「活動レベル」と「心のゆとり」はどこ？</p>
         </header>
 
         <main>
             <div class="meter-outer-box">
                 <div class="y-axis-label-container">
                     <span class="y-label-edge">高い</span>
-                    <span class="y-label-text">エネルギー</span>
+                    <span class="y-label-text">活動レベル</span>
                     <span class="y-label-edge">低い</span>
                 </div>
 
@@ -26,11 +26,8 @@
                         <span>10</span><span>9</span><span>8</span><span>7</span><span>6</span>
                         <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
                     </div>
-                    
                     <div id="mood-grid" class="grid"></div>
-
                     <div></div>
-                    
                     <div class="x-numbers">
                         <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
                         <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
@@ -38,8 +35,8 @@
                 </div>
                 
                 <div class="x-axis-label-container">
-                    <span>← 不快 (Unpleasant)</span>
-                    <span>快 (Pleasant) →</span>
+                    <span>← 不快 (ゆとり無)</span>
+                    <span>快 (ゆとり有) →</span>
                 </div>
             </div>
 
@@ -48,18 +45,21 @@
                     <span id="selected-emotion-jp">マスを選択してください</span>
                     <span id="selected-emotion-en"></span>
                 </div>
-                <input type="text" id="memo-input" placeholder="今の状況をメモ（例：夜勤明け、休憩中など）">
+                <input type="text" id="memo-input" placeholder="今の状況をメモ（例：夜勤明け、休憩など）">
                 <button id="save-btn" disabled>この感情を記録する</button>
             </div>
 
             <section class="history-section">
-                <h2>これまでの記録</h2>
+                <div class="history-header">
+                    <h2>これまでの記録</h2>
+                    <button id="share-btn" class="share-btn">全記録をバックアップ</button>
+                </div>
                 <div id="history-list" class="history-list"></div>
             </section>
         </main>
 
         <footer>
-            <p>© 教えてカメさん | Based on Yale Center for Emotional Intelligence</p>
+            <p>© 教えてカメさん | 看護師のための心のセルフケア</p>
         </footer>
     </div>
     <script src="script.js"></script>
