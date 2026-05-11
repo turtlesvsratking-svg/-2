@@ -8,6 +8,7 @@ const historyList = document.getElementById('history-list');
 
 let currentSelection = null;
 
+// 100の感情データ
 const emotions = {
     "10-1": ["忙しい", "Engaged"], "10-2": ["うろたえる", "Panicked"], "10-3": ["ストレス強", "Stressed"], "10-4": ["神経質", "Jittery"], "10-5": ["衝撃的", "Shocked"],
     "10-6": ["驚き", "Surprised"], "10-7": ["陽気", "Upbeat"], "10-8": ["祭り気分", "Festive"], "10-9": ["ウキウキ", "Exhilarated"], "10-10": ["有頂天", "Ecstatic"],
@@ -31,6 +32,7 @@ const emotions = {
     "1-6": ["眠い", "Sleepy"], "1-7": ["無関心", "Complacent"], "1-8": ["冷静", "Tranquil"], "1-9": ["くつろぎ", "Cozy"], "1-10": ["平穏", "Serene"]
 };
 
+// グリッド生成
 for (let y = 10; y >= 1; y--) {
     for (let x = 1; x <= 10; x++) {
         const cell = document.createElement('div');
@@ -49,6 +51,7 @@ for (let y = 10; y >= 1; y--) {
     }
 }
 
+// 保存処理
 saveBtn.onclick = () => {
     const log = { id: Date.now(), date: new Date().toLocaleString('ja-JP'), emotion: currentSelection.jp, memo: memoInput.value || "（なし）", color: currentSelection.color };
     const logs = JSON.parse(localStorage.getItem('moodLogs') || '[]');
@@ -56,26 +59,29 @@ saveBtn.onclick = () => {
     memoInput.value = ""; render();
 };
 
+// 履歴描画
 function render() {
     const logs = JSON.parse(localStorage.getItem('moodLogs') || '[]');
     historyList.innerHTML = logs.map(l => `<div class="history-item" style="border-left-color: ${l.color}"><div><div class="time">${l.date}</div><div class="emotion-name">${l.emotion}</div><div class="memo">${l.memo}</div></div><button class="delete-btn" onclick="deleteLog(${l.id})">削除</button></div>`).join('');
 }
 
-window.deleteLog = (id) => { if(confirm("消去しますか？")) { let logs = JSON.parse(localStorage.getItem('moodLogs') || '[]'); logs = logs.filter(l => l.id !== id); localStorage.setItem('moodLogs', JSON.stringify(logs)); render(); } };
+// 削除機能
+window.deleteLog = (id) => { if(confirm("この記録を削除しますか？")) { let logs = JSON.parse(localStorage.getItem('moodLogs') || '[]'); logs = logs.filter(l => l.id !== id); localStorage.setItem('moodLogs', JSON.stringify(logs)); render(); } };
 
+// バックアップ・共有機能（スマホ/PC両対応）
 shareBtn.onclick = async () => {
     const logs = JSON.parse(localStorage.getItem('moodLogs') || '[]');
     if(logs.length === 0) return alert("記録がありません");
     const text = "【教えてカメさん 感情日記】\n\n" + logs.map(l => `${l.date}\n感情：${l.emotion}\nメモ：${l.memo}\n----------------`).join('\n\n');
     
     if (navigator.share) {
-        try { await navigator.share({ title: '教えてカメさん記録', text: text }); } catch (e) { console.log(e); }
+        try { await navigator.share({ title: '教えてカメさん記録', text: text }); } catch (e) { console.log("共有中断"); }
     } else {
         try {
             await navigator.clipboard.writeText(text);
-            alert("記録をコピーしました！メモ帳等に貼り付けて保存してください。");
+            alert("全記録をコピーしました！メモ帳等に貼り付けて保存してください。");
         } catch (err) {
-            alert("保存に失敗しました。");
+            alert("コピーに失敗しました。");
         }
     }
 };
