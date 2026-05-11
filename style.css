@@ -2,7 +2,7 @@
     --bg-color: #f0f4f8;
     --text-color: #334155;
     --accent-color: #2dd4bf;
-    --grid-size: min(85vw, 500px);
+    --grid-size: min(75vw, 500px); /* ラベル領域を空けるため少し小さめに調整 */
 }
 
 body {
@@ -17,55 +17,65 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
 header { text-align: center; margin-bottom: 20px; }
-h1 { color: #1e293b; margin: 0; font-size: 1.6rem; }
+h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
+/* ムードメーター本体 */
 .meter-outer-box {
     display: flex;
     align-items: center;
     background: white;
-    padding: 30px 40px 60px 15px;
-    border-radius: 24px;
+    padding: 30px 25px 60px 10px; /* 余白を最適化 */
+    border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     position: relative;
+    margin: 0 auto;
 }
 
+/* 縦軸ラベル（スマホでも表示するように修正） */
 .y-axis-label-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: var(--grid-size);
-    margin-right: 8px;
+    margin-right: 5px;
     color: #64748b;
     font-weight: bold;
+    flex-shrink: 0;
 }
-.y-label-text { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.2em; font-size: 0.85rem; }
+.y-label-text { 
+    writing-mode: vertical-rl; 
+    text-orientation: upright; 
+    letter-spacing: 0.1em; 
+    font-size: 0.75rem; 
+}
+.y-label-edge { font-size: 0.7rem; }
 
 .grid-layout {
     display: grid;
-    grid-template-columns: 25px var(--grid-size);
-    grid-template-rows: var(--grid-size) 25px;
-    gap: 5px;
+    grid-template-columns: 22px var(--grid-size);
+    grid-template-rows: var(--grid-size) 22px;
+    gap: 4px;
 }
 
 .y-numbers, .x-numbers {
     display: grid;
     color: #94a3b8;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
-.y-numbers { grid-template-rows: repeat(10, 1fr); align-items: center; text-align: right; padding-right: 8px; }
+.y-numbers { grid-template-rows: repeat(10, 1fr); align-items: center; text-align: right; padding-right: 5px; }
 .x-numbers { grid-template-columns: repeat(10, 1fr); justify-items: center; align-items: center; }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: 2px solid #e2e8f0;
+    border: 1.5px solid #e2e8f0;
     gap: 1px;
 }
 
@@ -74,46 +84,53 @@ h1 { color: #1e293b; margin: 0; font-size: 1.6rem; }
 .x-axis-label-container {
     position: absolute;
     bottom: 20px;
-    right: 40px;
+    right: 25px;
     width: var(--grid-size);
     display: flex;
     justify-content: space-between;
     color: #64748b;
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
-.log-input-area, .history-section { width: 100%; max-width: 500px; margin-top: 25px; }
+/* 入力・履歴エリア */
+.log-input-area, .history-section { width: 100%; max-width: 450px; margin-top: 20px; }
 
 .log-input-area {
-    background: white; padding: 20px; border-radius: 20px;
-    display: flex; flex-direction: column; gap: 12px;
+    background: white; padding: 15px; border-radius: 15px;
+    display: flex; flex-direction: column; gap: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-#selected-emotion-jp { display: block; font-size: 1.6rem; font-weight: bold; color: #1e293b; text-align: center; }
-#selected-emotion-en { display: block; font-size: 0.9rem; color: #64748b; text-align: center; font-style: italic; }
+#selected-emotion-jp { display: block; font-size: 1.4rem; font-weight: bold; color: #1e293b; text-align: center; }
+#selected-emotion-en { display: block; font-size: 0.8rem; color: #64748b; text-align: center; font-style: italic; }
 
-#memo-input { padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; }
-#save-btn { padding: 14px; background: var(--accent-color); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+#memo-input { padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; }
+#save-btn { padding: 12px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 #save-btn:disabled { background: #cbd5e1; }
 
-.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.share-btn { background: #007aff; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer; }
+.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.share-btn { background: #007aff; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
 
 .history-item {
-    background: white; padding: 15px; margin-bottom: 10px; border-radius: 12px;
+    background: white; padding: 12px; margin-bottom: 8px; border-radius: 10px;
     display: flex; justify-content: space-between; align-items: center;
-    border-left: 10px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    border-left: 6px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 }
 
-.delete-btn { background: #fee2e2; color: #ef4444; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; }
+.time { font-size: 0.65rem; color: #94a3b8; }
+.emotion-name { font-weight: bold; font-size: 1rem; margin: 2px 0; }
+.memo { font-size: 0.8rem; color: #475569; }
 
-footer { margin-top: 40px; color: #94a3b8; font-size: 0.75rem; text-align: center; }
+.delete-btn { background: #fee2e2; color: #ef4444; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; }
 
+footer { margin-top: 30px; padding-bottom: 20px; color: #94a3b8; font-size: 0.7rem; text-align: center; }
+
+/* スマホ対応の修正：非表示にせず、サイズ調整のみ行う */
 @media (max-width: 600px) {
-    :root { --grid-size: 300px; }
-    .y-axis-label-container { display: none; }
-    .meter-outer-box { padding: 20px 20px 50px 10px; }
-    .x-axis-label-container { right: 20px; width: 300px; }
+    :root { --grid-size: 260px; }
+    .meter-outer-box { padding: 25px 20px 45px 5px; }
+    .y-axis-label-container { margin-right: 3px; }
+    .y-label-text { font-size: 0.65rem; }
+    .x-axis-label-container { right: 20px; width: 260px; font-size: 0.65rem; }
 }
