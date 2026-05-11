@@ -1,69 +1,130 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>教えてカメさん - 感情ログ</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="centering-wrapper">
-        <header>
-            <h1>教えてカメさん</h1>
-            <p>今の「活動レベル」と「心の気分」はどこ？</p>
-        </header>
+:root {
+    --bg-color: #f0f4f8;
+    --text-color: #334155;
+    --accent-color: #2dd4bf;
+    --grid-size: min(75vw, 500px);
+}
 
-        <main>
-            <div class="meter-outer-box">
-                <div class="y-axis-label-container">
-                    <span class="y-label-edge">高い</span>
-                    <span class="y-label-text">活動レベル</span>
-                    <span class="y-label-edge">低い</span>
-                </div>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
 
-                <div class="grid-layout">
-                    <div class="y-numbers">
-                        <span>10</span><span>9</span><span>8</span><span>7</span><span>6</span>
-                        <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
-                    </div>
-                    
-                    <div id="mood-grid" class="grid"></div>
+.centering-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
 
-                    <div></div> <div class="x-numbers">
-                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-                        <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                    </div>
-                </div>
-                
-                <div class="x-axis-label-container">
-                    <span class="x-label-edge">← 不快</span>
-                    <span class="x-label-main">心の気分</span>
-                    <span class="x-label-edge">快 →</span>
-                </div>
-            </div>
+header { text-align: center; margin-bottom: 20px; }
+h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
-            <div class="log-input-area">
-                <div class="selected-status">
-                    <span id="selected-emotion-jp">マスを選択してください</span>
-                    <span id="selected-emotion-en"></span>
-                </div>
-                <input type="text" id="memo-input" placeholder="今の状況をメモ（例：夜勤明け、休憩など）">
-                <button id="save-btn" disabled>この感情を記録する</button>
-            </div>
+/* ムードメーター本体 */
+.meter-outer-box {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 30px 25px 60px 10px; /* 下側のパディングを確保 */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    position: relative;
+    margin: 0 auto;
+}
 
-            <section class="history-section">
-                <div class="history-header">
-                    <h2>これまでの記録</h2>
-                    <button id="share-btn" class="share-btn">全記録をバックアップ</button>
-                </div>
-                <div id="history-list" class="history-list"></div>
-            </section>
-        </main>
+/* 縦軸ラベル */
+.y-axis-label-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: var(--grid-size);
+    margin-right: 5px;
+    color: #64748b;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+.y-label-text { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.1em; font-size: 0.75rem; }
+.y-label-edge { font-size: 0.7rem; }
 
-        <footer>
-            <p>© 教えてカメさん | 看護師のための心のセルフケア</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+.grid-layout {
+    display: grid;
+    grid-template-columns: 22px var(--grid-size);
+    grid-template-rows: var(--grid-size) 22px;
+    gap: 4px;
+}
+
+.y-numbers, .x-numbers {
+    display: grid;
+    color: #94a3b8;
+    font-weight: bold;
+    font-size: 0.7rem;
+}
+.y-numbers { grid-template-rows: repeat(10, 1fr); align-items: center; text-align: right; padding-right: 5px; }
+.x-numbers { grid-template-columns: repeat(10, 1fr); justify-items: center; align-items: center; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border: 1.5px solid #e2e8f0;
+    gap: 1px;
+}
+
+.cell { width: 100%; height: 100%; cursor: pointer; transition: 0.1s; }
+
+/* 横軸ラベル：ここが修正ポイント */
+.x-axis-label-container {
+    position: absolute;
+    bottom: 15px; /* 下端からの距離 */
+    left: 37px;   /* 縦軸ラベル(10px)+y-numbers(22px)+gap(5px) 程度に合わせる */
+    width: var(--grid-size);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #64748b;
+    font-weight: bold;
+}
+.x-label-main { color: #334155; font-size: 0.85rem; letter-spacing: 0.1em; text-align: center; flex-grow: 1; }
+.x-label-edge { font-size: 0.7rem; white-space: nowrap; width: 60px; }
+.x-label-edge:last-child { text-align: right; }
+
+/* 入力・履歴エリア */
+.log-input-area, .history-section { width: 100%; max-width: 450px; margin-top: 20px; }
+.log-input-area {
+    background: white; padding: 15px; border-radius: 15px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#selected-emotion-jp { display: block; font-size: 1.4rem; font-weight: bold; color: #1e293b; text-align: center; }
+#selected-emotion-en { display: block; font-size: 0.8rem; color: #64748b; text-align: center; font-style: italic; }
+
+#memo-input { padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; }
+#save-btn { padding: 12px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+#save-btn:disabled { background: #cbd5e1; }
+
+.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.share-btn { background: #007aff; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+
+.history-item {
+    background: white; padding: 12px; margin-bottom: 8px; border-radius: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-left: 6px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.delete-btn { background: #fee2e2; color: #ef4444; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; }
+
+footer { margin-top: 30px; padding-bottom: 20px; color: #94a3b8; font-size: 0.7rem; text-align: center; }
+
+@media (max-width: 600px) {
+    :root { --grid-size: 260px; }
+    .meter-outer-box { padding: 25px 20px 55px 5px; }
+    .y-axis-label-container { margin-right: 3px; }
+    .x-axis-label-container { left: 30px; width: 260px; }
+    .x-label-main { font-size: 0.75rem; }
+}
