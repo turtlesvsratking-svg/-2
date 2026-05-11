@@ -25,19 +25,17 @@ body {
 header { text-align: center; margin-bottom: 20px; }
 h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
-/* ムードメーター本体 */
 .meter-outer-box {
     display: flex;
     align-items: center;
     background: white;
-    padding: 30px 25px 60px 10px; /* 下側のパディングを確保 */
+    padding: 30px 25px 60px 10px;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     position: relative;
     margin: 0 auto;
 }
 
-/* 縦軸ラベル */
 .y-axis-label-container {
     display: flex;
     flex-direction: column;
@@ -77,11 +75,10 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
 .cell { width: 100%; height: 100%; cursor: pointer; transition: 0.1s; }
 
-/* 横軸ラベル：ここが修正ポイント */
 .x-axis-label-container {
     position: absolute;
-    bottom: 15px; /* 下端からの距離 */
-    left: 37px;   /* 縦軸ラベル(10px)+y-numbers(22px)+gap(5px) 程度に合わせる */
+    bottom: 15px;
+    left: 37px;
     width: var(--grid-size);
     display: flex;
     justify-content: space-between;
@@ -93,7 +90,6 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 .x-label-edge { font-size: 0.7rem; white-space: nowrap; width: 60px; }
 .x-label-edge:last-child { text-align: right; }
 
-/* 入力・履歴エリア */
 .log-input-area, .history-section { width: 100%; max-width: 450px; margin-top: 20px; }
 .log-input-area {
     background: white; padding: 15px; border-radius: 15px;
