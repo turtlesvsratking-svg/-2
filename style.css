@@ -2,7 +2,7 @@
     --bg-color: #f0f4f8;
     --text-color: #334155;
     --accent-color: #2dd4bf;
-    --grid-size: min(75vw, 500px); /* ラベル領域を空けるため少し小さめに調整 */
+    --grid-size: min(75vw, 500px);
 }
 
 body {
@@ -10,6 +10,7 @@ body {
     background-color: var(--bg-color);
     margin: 0;
     padding: 0;
+    color: var(--text-color);
 }
 
 .centering-wrapper {
@@ -29,14 +30,13 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
     display: flex;
     align-items: center;
     background: white;
-    padding: 30px 25px 60px 10px; /* 余白を最適化 */
+    padding: 30px 25px 55px 10px;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     position: relative;
-    margin: 0 auto;
 }
 
-/* 縦軸ラベル（スマホでも表示するように修正） */
+/* 縦軸ラベル */
 .y-axis-label-container {
     display: flex;
     flex-direction: column;
@@ -47,12 +47,7 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
     font-weight: bold;
     flex-shrink: 0;
 }
-.y-label-text { 
-    writing-mode: vertical-rl; 
-    text-orientation: upright; 
-    letter-spacing: 0.1em; 
-    font-size: 0.75rem; 
-}
+.y-label-text { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.1em; font-size: 0.75rem; }
 .y-label-edge { font-size: 0.7rem; }
 
 .grid-layout {
@@ -81,17 +76,20 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
 .cell { width: 100%; height: 100%; cursor: pointer; transition: 0.1s; }
 
+/* 横軸ラベル：3分割配置 */
 .x-axis-label-container {
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     right: 25px;
     width: var(--grid-size);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     color: #64748b;
     font-weight: bold;
-    font-size: 0.75rem;
 }
+.x-label-main { color: #334155; font-size: 0.85rem; letter-spacing: 0.1em; }
+.x-label-edge { font-size: 0.7rem; white-space: nowrap; }
 
 /* 入力・履歴エリア */
 .log-input-area, .history-section { width: 100%; max-width: 450px; margin-top: 20px; }
@@ -126,11 +124,11 @@ h1 { color: #1e293b; margin: 0; font-size: 1.4rem; }
 
 footer { margin-top: 30px; padding-bottom: 20px; color: #94a3b8; font-size: 0.7rem; text-align: center; }
 
-/* スマホ対応の修正：非表示にせず、サイズ調整のみ行う */
 @media (max-width: 600px) {
     :root { --grid-size: 260px; }
-    .meter-outer-box { padding: 25px 20px 45px 5px; }
+    .meter-outer-box { padding: 25px 20px 48px 5px; }
     .y-axis-label-container { margin-right: 3px; }
     .y-label-text { font-size: 0.65rem; }
-    .x-axis-label-container { right: 20px; width: 260px; font-size: 0.65rem; }
+    .x-axis-label-container { right: 20px; width: 260px; }
+    .x-label-main { font-size: 0.75rem; }
 }
